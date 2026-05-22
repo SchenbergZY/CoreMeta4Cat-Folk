@@ -1,4 +1,4 @@
-# Configuration of generators (defaults illustrated)
+# Configuration of generators (defaults illustrated) just add this to start actions
 ---
 # The directory where the generated files are stored
 # directory: "tmp"
