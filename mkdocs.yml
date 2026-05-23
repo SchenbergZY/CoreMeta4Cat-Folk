@@ -1,5 +1,5 @@
 ---
-site_name: "CoreMeta4Cat"
+site_name: "CoreMeta4Cat-Folk"
 theme:
   name: material
   # palette:
@@ -61,8 +61,8 @@ exclude_docs: |
 extra_css:
   - stylesheets//no-details-box.css
 
-site_url: https://nfdi4cat.github.io/CoreMeta4Cat
-repo_url: https://github.com/nfdi4cat/CoreMeta4Cat
+site_url: https://schenbergzy.github.io/CoreMeta4Cat-Folk
+repo_url: https://github.com/SchenbergZY/CoreMeta4Cat-Folk
 use_directory_urls: true
 
 # enable version selector for multi-version support
