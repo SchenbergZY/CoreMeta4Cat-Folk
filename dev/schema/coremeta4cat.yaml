@@ -12034,7 +12034,7 @@ classes:
 
       (Impregnation, CoPrecipitation, DepositionPrecipitation,
 
-      SonochemicalSynthesis, ExsolutionSynthesis).'
+      SonochemicalSynthesis, ExsolutionSynthesis, YueTestingSynthesis).'
     from_schema: https://w3id.org/nfdi4cat/coremeta4cat/synthesis/
     mixin: true
     slots:
@@ -12709,6 +12709,30 @@ classes:
     - has_calcination_heating_rate
     - has_calcination_gas_flow_rate
     class_uri: coremeta4cat:ExsolutionSynthesis
+  YueTestSynthesis:
+    name: YueTestSynthesis
+    definition_uri: https://w3id.org/nfdi4cat/coremeta4cat/YueTestSynthesis
+    description: 'Catalyst preparation by exsolution: testing Yue changes in Synthesis
+
+      a perovskite oxide surface by reduction/oxidation cycling.'
+    from_schema: https://w3id.org/nfdi4cat/coremeta4cat/synthesis/
+    mappings:
+    - coremeta4cat:YueTestSynthesis
+    is_a: PreparationMethod
+    mixins:
+    - CalcinationMixin
+    slots:
+    - title
+    - description
+    - ClassifierMixin_type
+    - rdf_type
+    - has_calcination_temperature_range
+    - has_calcination_dwelling_time
+    - number_of_cycles
+    - has_calcination_atmosphere
+    - has_calcination_heating_rate
+    - has_calcination_gas_flow_rate
+    class_uri: coremeta4cat:YueTestSynthesis
   XRaySourceMixin:
     name: XRaySourceMixin
     definition_uri: https://w3id.org/nfdi4cat/coremeta4cat/XRaySourceMixin
@@ -17914,7 +17938,7 @@ classes:
     class_uri: qudt:Quantity
 metamodel_version: 1.7.0
 source_file: coremeta4cat.yaml
-source_file_date: '2026-06-04T09:24:32'
+source_file_date: '2026-06-04T09:49:30'
 source_file_size: 6625
-generation_date: '2026-06-04T09:24:45'
+generation_date: '2026-06-04T09:49:42'
 

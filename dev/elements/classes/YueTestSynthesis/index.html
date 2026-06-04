@@ -5,10 +5,10 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="https://schenbergzy.github.io/CoreMeta4Cat-Folk/latest/elements/classes/CalcinationGaseousEnvironment/" rel="canonical"/>
+<link href="https://schenbergzy.github.io/CoreMeta4Cat-Folk/latest/elements/classes/YueTestSynthesis/" rel="canonical"/>
 <link href="../../../assets/images/favicon.png" rel="icon"/>
 <meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
-<title>Class: CalcinationGaseousEnvironment - CoreMeta4Cat-Folk</title>
+<title>Class: YueTestSynthesis - CoreMeta4Cat-Folk</title>
 <link href="../../../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
@@ -24,7 +24,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#class-calcinationgaseousenvironment">
+<a class="md-skip" href="#class-yuetestsynthesis">
           Skip to content
         </a>
 </div>
@@ -50,7 +50,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Class: CalcinationGaseousEnvironment
+              Class: YueTestSynthesis
             
           </span>
 </div>
@@ -338,15 +338,6 @@
 </a>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="#usages">
-<span class="md-ellipsis">
-      
-        Usages
-      
-    </span>
-</a>
-</li>
-<li class="md-nav__item">
 <a class="md-nav__link" href="#identifier-and-mapping-information">
 <span class="md-ellipsis">
       
@@ -415,51 +406,108 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<h1 id="class-calcinationgaseousenvironment">Class: CalcinationGaseousEnvironment</h1>
-<p><em>The specific gaseous environment maintained during a calcination step</em></p>
-<p><em>(e.g. "air", "N2", "10% O2/N2").</em></p>
-<p>URI: <a href="https://w3id.org/nfdi4cat/voc4cat_0000055">VOC4CAT:0000055</a></p>
+<h1 id="class-yuetestsynthesis">Class: YueTestSynthesis</h1>
+<p><em>Catalyst preparation by exsolution: testing Yue changes in Synthesis</em></p>
+<p><em>a perovskite oxide surface by reduction/oxidation cycling.</em></p>
+<p>URI: <a href="https://w3id.org/nfdi4cat/coremeta4cat/YueTestSynthesis">coremeta4cat:YueTestSynthesis</a></p>
 <pre class="mermaid"><code> classDiagram
-    class CalcinationGaseousEnvironment
-    click CalcinationGaseousEnvironment href "../../classes/CalcinationGaseousEnvironment/"
-      Atmosphere &lt;|-- CalcinationGaseousEnvironment
-        click Atmosphere href "../../classes/Atmosphere/"
+    class YueTestSynthesis
+    click YueTestSynthesis href "../../classes/YueTestSynthesis/"
+      CalcinationMixin &lt;|-- YueTestSynthesis
+        click CalcinationMixin href "../../classes/CalcinationMixin/"
+      PreparationMethod &lt;|-- YueTestSynthesis
+        click PreparationMethod href "../../classes/PreparationMethod/"
 
-      CalcinationGaseousEnvironment : description
+      YueTestSynthesis : description
 
-      CalcinationGaseousEnvironment : rdf_type
-
-
+      YueTestSynthesis : has_calcination_atmosphere
 
 
 
-        CalcinationGaseousEnvironment --&gt; "0..1 _recommended_" DefinedTerm : rdf_type
+
+
+        YueTestSynthesis --&gt; "* _recommended_" CalcinationGaseousEnvironment : has_calcination_atmosphere
+        click CalcinationGaseousEnvironment href "../../classes/CalcinationGaseousEnvironment/"
+
+
+
+      YueTestSynthesis : has_calcination_dwelling_time
+
+
+
+
+
+        YueTestSynthesis --&gt; "0..1" Duration : has_calcination_dwelling_time
+        click Duration href "../../classes/Duration/"
+
+
+
+      YueTestSynthesis : has_calcination_gas_flow_rate
+
+
+
+
+
+        YueTestSynthesis --&gt; "* _recommended_" VolumeFlowRate : has_calcination_gas_flow_rate
+        click VolumeFlowRate href "../../classes/VolumeFlowRate/"
+
+
+
+      YueTestSynthesis : has_calcination_heating_rate
+
+
+
+
+
+        YueTestSynthesis --&gt; "* _recommended_" HeatingRate : has_calcination_heating_rate
+        click HeatingRate href "../../classes/HeatingRate/"
+
+
+
+      YueTestSynthesis : has_calcination_temperature_range
+
+
+
+
+
+        YueTestSynthesis --&gt; "0..1" QuantitativeRange : has_calcination_temperature_range
+        click QuantitativeRange href "../../classes/QuantitativeRange/"
+
+
+
+      YueTestSynthesis : number_of_cycles
+
+      YueTestSynthesis : rdf_type
+
+
+
+
+
+        YueTestSynthesis --&gt; "0..1 _recommended_" DefinedTerm : rdf_type
         click DefinedTerm href "../../classes/DefinedTerm/"
 
 
 
-      CalcinationGaseousEnvironment : title
+      YueTestSynthesis : title
 
-      CalcinationGaseousEnvironment : type
-
-
+      YueTestSynthesis : type
 
 
 
-        CalcinationGaseousEnvironment --&gt; "0..1" DefinedTerm : type
+
+
+        YueTestSynthesis --&gt; "0..1" DefinedTerm : type
         click DefinedTerm href "../../classes/DefinedTerm/"
 
 
-
-      CalcinationGaseousEnvironment : value
 
 
 </code></pre>
 <h2 id="inheritance">Inheritance</h2>
 <ul>
-<li><a href="../QualitativeAttribute/">QualitativeAttribute</a> [ <a href="../ClassifierMixin/">ClassifierMixin</a>]<ul>
-<li><a href="../Atmosphere/">Atmosphere</a><ul>
-<li><strong>CalcinationGaseousEnvironment</strong></li>
+<li><a href="../Plan/">Plan</a> [ <a href="../ClassifierMixin/">ClassifierMixin</a>]<ul>
+<li><a href="../PreparationMethod/">PreparationMethod</a><ul>
+<li><strong>YueTestSynthesis</strong> [ <a href="../CalcinationMixin/">CalcinationMixin</a>]</li>
 </ul>
 </li>
 </ul>
@@ -477,22 +525,52 @@
 </thead>
 <tbody>
 <tr>
+<td><a href="../../slots/has_calcination_temperature_range/">has_calcination_temperature_range</a></td>
+<td>0..1 <br/> <a href="../QuantitativeRange/">QuantitativeRange</a></td>
+<td>Temperature range of the calcination programme (initial -&gt; final temperature),<br/>provided as a QuantitativeRange. Unit: Degree Celsius.</td>
+<td><a href="../CalcinationMixin/">CalcinationMixin</a></td>
+</tr>
+<tr>
+<td><a href="../../slots/has_calcination_dwelling_time/">has_calcination_dwelling_time</a></td>
+<td>0..1 <br> <a href="../Duration/">Duration</a></br></td>
+<td>Time held at the final calcination temperature.</td>
+<td><a href="../CalcinationMixin/">CalcinationMixin</a></td>
+</tr>
+<tr>
+<td><a href="../../slots/number_of_cycles/">number_of_cycles</a></td>
+<td>* <br/> <a href="../../types/Integer/">Integer</a></td>
+<td>Number of repeated cycles in a process (e.g. ALD cycles, impregnation cycles).</td>
+<td><a href="../CalcinationMixin/">CalcinationMixin</a></td>
+</tr>
+<tr>
+<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
+<td>* <em>recommended</em> <br/> <a href="../CalcinationGaseousEnvironment/">CalcinationGaseousEnvironment</a></td>
+<td>Gaseous environment maintained during the calcination step.</td>
+<td><a href="../CalcinationMixin/">CalcinationMixin</a></td>
+</tr>
+<tr>
+<td><a href="../../slots/has_calcination_heating_rate/">has_calcination_heating_rate</a></td>
+<td>* <em>recommended</em> <br/> <a href="../HeatingRate/">HeatingRate</a></td>
+<td>Temperature ramp rate during the calcination step.</td>
+<td><a href="../CalcinationMixin/">CalcinationMixin</a></td>
+</tr>
+<tr>
+<td><a href="../../slots/has_calcination_gas_flow_rate/">has_calcination_gas_flow_rate</a></td>
+<td>* <em>recommended</em> <br/> <a href="../VolumeFlowRate/">VolumeFlowRate</a></td>
+<td>Gas flow rate maintained during calcination.</td>
+<td><a href="../CalcinationMixin/">CalcinationMixin</a></td>
+</tr>
+<tr>
 <td><a href="../../slots/title/">title</a></td>
 <td>0..1 <br/> <a href="../../types/String/">String</a></td>
 <td>This slot is described in more detail within the class in which it is used.</td>
-<td><a href="../QualitativeAttribute/">QualitativeAttribute</a></td>
+<td><a href="../Plan/">Plan</a></td>
 </tr>
 <tr>
 <td><a href="../../slots/description/">description</a></td>
 <td>0..1 <br/> <a href="../../types/String/">String</a></td>
 <td>This slot is described in more detail within the class in which it is used.</td>
-<td><a href="../QualitativeAttribute/">QualitativeAttribute</a></td>
-</tr>
-<tr>
-<td><a href="../../slots/value/">value</a></td>
-<td>1 <br/> <a href="../../types/String/">String</a></td>
-<td>The slot to provide the literal value of the QualitativeAttribute.</td>
-<td><a href="../QualitativeAttribute/">QualitativeAttribute</a></td>
+<td><a href="../Plan/">Plan</a></td>
 </tr>
 <tr>
 <td><a href="../../slots/type/">type</a></td>
@@ -505,61 +583,6 @@
 <td>0..1 <em>recommended</em> <br/> <a href="../DefinedTerm/">DefinedTerm</a></td>
 <td>The slot to specify the ontology class that is instantiated by an entity.</td>
 <td><a href="../ClassifierMixin/">ClassifierMixin</a></td>
-</tr>
-</tbody>
-</table>
-<h2 id="usages">Usages</h2>
-<table>
-<thead>
-<tr>
-<th>used by</th>
-<th>used in</th>
-<th>type</th>
-<th>used</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="../CalcinationMixin/">CalcinationMixin</a></td>
-<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
-<td>range</td>
-<td><a href="./">CalcinationGaseousEnvironment</a></td>
-</tr>
-<tr>
-<td><a href="../Impregnation/">Impregnation</a></td>
-<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
-<td>range</td>
-<td><a href="./">CalcinationGaseousEnvironment</a></td>
-</tr>
-<tr>
-<td><a href="../CoPrecipitation/">CoPrecipitation</a></td>
-<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
-<td>range</td>
-<td><a href="./">CalcinationGaseousEnvironment</a></td>
-</tr>
-<tr>
-<td><a href="../DepositionPrecipitation/">DepositionPrecipitation</a></td>
-<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
-<td>range</td>
-<td><a href="./">CalcinationGaseousEnvironment</a></td>
-</tr>
-<tr>
-<td><a href="../SonochemicalSynthesis/">SonochemicalSynthesis</a></td>
-<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
-<td>range</td>
-<td><a href="./">CalcinationGaseousEnvironment</a></td>
-</tr>
-<tr>
-<td><a href="../ExsolutionSynthesis/">ExsolutionSynthesis</a></td>
-<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
-<td>range</td>
-<td><a href="./">CalcinationGaseousEnvironment</a></td>
-</tr>
-<tr>
-<td><a href="../YueTestSynthesis/">YueTestSynthesis</a></td>
-<td><a href="../../slots/has_calcination_atmosphere/">has_calcination_atmosphere</a></td>
-<td>range</td>
-<td><a href="./">CalcinationGaseousEnvironment</a></td>
 </tr>
 </tbody>
 </table>
@@ -579,11 +602,11 @@
 <tbody>
 <tr>
 <td>self</td>
-<td>VOC4CAT:0000055</td>
+<td>coremeta4cat:YueTestSynthesis</td>
 </tr>
 <tr>
 <td>native</td>
-<td>coremeta4cat:CalcinationGaseousEnvironment</td>
+<td>coremeta4cat:YueTestSynthesis</td>
 </tr>
 </tbody>
 </table>
@@ -591,24 +614,120 @@
 <!-- TODO: investigate https://stackoverflow.com/questions/37606292/how-to-create-tabbed-code-blocks-in-mkdocs-or-sphinx -->
 <h3 id="direct">Direct</h3>
 <details>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
-<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'The</span><span class="nv"> </span><span class="s">specific</span><span class="nv"> </span><span class="s">gaseous</span><span class="nv"> </span><span class="s">environment</span><span class="nv"> </span><span class="s">maintained</span><span class="nv"> </span><span class="s">during</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">calcination</span><span class="nv"> </span><span class="s">step</span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'Catalyst</span><span class="nv"> </span><span class="s">preparation</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">exsolution:</span><span class="nv"> </span><span class="s">testing</span><span class="nv"> </span><span class="s">Yue</span><span class="nv"> </span><span class="s">changes</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">Synthesis</span>
 
-<span class="w">  </span><span class="s">(e.g.</span><span class="nv"> </span><span class="s">"air",</span><span class="nv"> </span><span class="s">"N2",</span><span class="nv"> </span><span class="s">"10%</span><span class="nv"> </span><span class="s">O2/N2").'</span>
+<span class="w">  </span><span class="s">a</span><span class="nv"> </span><span class="s">perovskite</span><span class="nv"> </span><span class="s">oxide</span><span class="nv"> </span><span class="s">surface</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">reduction/oxidation</span><span class="nv"> </span><span class="s">cycling.'</span>
 <span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
-<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Atmosphere</span>
-<span class="nt">class_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VOC4CAT:0000055</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PreparationMethod</span>
+<span class="nt">mixins</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
+<span class="nt">class_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coremeta4cat:YueTestSynthesis</span>
 </code></pre></div>
 </details>
 <h3 id="induced">Induced</h3>
 <details>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
-<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'The</span><span class="nv"> </span><span class="s">specific</span><span class="nv"> </span><span class="s">gaseous</span><span class="nv"> </span><span class="s">environment</span><span class="nv"> </span><span class="s">maintained</span><span class="nv"> </span><span class="s">during</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">calcination</span><span class="nv"> </span><span class="s">step</span>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'Catalyst</span><span class="nv"> </span><span class="s">preparation</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">exsolution:</span><span class="nv"> </span><span class="s">testing</span><span class="nv"> </span><span class="s">Yue</span><span class="nv"> </span><span class="s">changes</span><span class="nv"> </span><span class="s">in</span><span class="nv"> </span><span class="s">Synthesis</span>
 
-<span class="w">  </span><span class="s">(e.g.</span><span class="nv"> </span><span class="s">"air",</span><span class="nv"> </span><span class="s">"N2",</span><span class="nv"> </span><span class="s">"10%</span><span class="nv"> </span><span class="s">O2/N2").'</span>
+<span class="w">  </span><span class="s">a</span><span class="nv"> </span><span class="s">perovskite</span><span class="nv"> </span><span class="s">oxide</span><span class="nv"> </span><span class="s">surface</span><span class="nv"> </span><span class="s">by</span><span class="nv"> </span><span class="s">reduction/oxidation</span><span class="nv"> </span><span class="s">cycling.'</span>
 <span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
-<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Atmosphere</span>
+<span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PreparationMethod</span>
+<span class="nt">mixins</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
 <span class="nt">attributes</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">has_calcination_temperature_range</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_temperature_range</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">'Temperature</span><span class="nv"> </span><span class="s">range</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">the</span><span class="nv"> </span><span class="s">calcination</span><span class="nv"> </span><span class="s">programme</span><span class="nv"> </span><span class="s">(initial</span><span class="nv"> </span><span class="s">-&gt;</span><span class="nv"> </span><span class="s">final</span>
+<span class="w">      </span><span class="s">temperature),</span>
+
+<span class="w">      </span><span class="s">provided</span><span class="nv"> </span><span class="s">as</span><span class="nv"> </span><span class="s">a</span><span class="nv"> </span><span class="s">QuantitativeRange.</span><span class="nv"> </span><span class="s">Unit:</span><span class="nv"> </span><span class="s">Degree</span><span class="nv"> </span><span class="s">Celsius.'</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coremeta4cat:hasCalcinationTemperatureRange</span>
+<span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_temperature_range</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QuantitativeRange</span>
+<span class="w">    </span><span class="nt">inlined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">has_calcination_dwelling_time</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_dwelling_time</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Time held at the final calcination temperature.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_duration</span>
+<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SIO:000008</span>
+<span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_dwelling_time</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Duration</span>
+<span class="w">  </span><span class="nt">number_of_cycles</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number_of_cycles</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Number of repeated cycles in a process (e.g. ALD cycles, impregnation</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">cycles).</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VOC4CAT:0008123</span>
+<span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">number_of_cycles</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">AtomicLayerDeposition</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MolecularSynthesis</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">XRayAbsorptionSpectroscopy</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CyclicVoltammetry</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">integer</span>
+<span class="w">    </span><span class="nt">multivalued</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">has_calcination_atmosphere</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_atmosphere</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Gaseous environment maintained during the calcination step.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_atmosphere</span>
+<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SIO:000008</span>
+<span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_atmosphere</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
+<span class="w">    </span><span class="nt">recommended</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">multivalued</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">inlined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">inlined_as_list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">has_calcination_heating_rate</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_heating_rate</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Temperature ramp rate during the calcination step.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_heating_rate</span>
+<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SIO:000008</span>
+<span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_heating_rate</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HeatingRate</span>
+<span class="w">    </span><span class="nt">recommended</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">multivalued</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">inlined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">inlined_as_list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">has_calcination_gas_flow_rate</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_gas_flow_rate</span>
+<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Gas flow rate maintained during calcination.</span>
+<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
+<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
+<span class="w">    </span><span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_flow_rate</span>
+<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SIO:000008</span>
+<span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_calcination_gas_flow_rate</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
+<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationMixin</span>
+<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeFlowRate</span>
+<span class="w">    </span><span class="nt">recommended</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">multivalued</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">inlined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">inlined_as_list</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">title</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">title</span>
 <span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">This slot is described in more detail within the class in which it</span>
@@ -617,7 +736,7 @@
 <span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
 <span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dcterms:title</span>
 <span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">title</span>
-<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
 <span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QuantitativeRange</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Activity</span>
@@ -666,7 +785,7 @@
 <span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
 <span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dcterms:description</span>
 <span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">description</span>
-<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
 <span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QuantitativeRange</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Activity</span>
@@ -706,21 +825,6 @@
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Surrounding</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TimeInstant</span>
 <span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">  </span><span class="nt">value</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">value</span>
-<span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">The slot to provide the literal value of the QualitativeAttribute.</span>
-<span class="w">    </span><span class="nt">in_subset</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">domain_agnostic_core</span>
-<span class="w">    </span><span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
-<span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
-<span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">prov:value</span>
-<span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">value</span>
-<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
-<span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QualitativeAttribute</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">QuantitativeAttribute</span>
-<span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">string</span>
-<span class="w">    </span><span class="nt">required</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">  </span><span class="nt">type</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type</span>
 <span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">This slot is described in more detail within the class in which it</span>
@@ -729,7 +833,7 @@
 <span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
 <span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dcterms:type</span>
 <span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">type</span>
-<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
 <span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Agent</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClassifierMixin</span>
@@ -747,13 +851,13 @@
 <span class="w">    </span><span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
 <span class="w">    </span><span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rdf:type</span>
 <span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rdf_type</span>
-<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CalcinationGaseousEnvironment</span>
+<span class="w">    </span><span class="nt">owner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">YueTestSynthesis</span>
 <span class="w">    </span><span class="nt">domain_of</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClassifierMixin</span>
 <span class="w">    </span><span class="nt">range</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DefinedTerm</span>
 <span class="w">    </span><span class="nt">recommended</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">inlined</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="nt">class_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VOC4CAT:0000055</span>
+<span class="nt">class_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">coremeta4cat:YueTestSynthesis</span>
 </code></pre></div>
 </details>
 </article>
