@@ -70,7 +70,7 @@ classes:
       Mixin providing calcination step parameters. Used by preparation methods
       that include a thermal calcination step
       (Impregnation, CoPrecipitation, DepositionPrecipitation,
-      SonochemicalSynthesis, ExsolutionSynthesis, YueTestingSynthesis).
+      SonochemicalSynthesis, ExsolutionSynthesis, YueTestSynthesis).
     slots:
       - has_calcination_temperature_range
       - has_calcination_dwelling_time
