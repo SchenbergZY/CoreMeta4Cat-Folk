@@ -70,7 +70,7 @@ classes:
       Mixin providing calcination step parameters. Used by preparation methods
       that include a thermal calcination step
       (Impregnation, CoPrecipitation, DepositionPrecipitation,
-      SonochemicalSynthesis, ExsolutionSynthesis).
+      SonochemicalSynthesis, ExsolutionSynthesis, YueTestingSynthesis).
     slots:
       - has_calcination_temperature_range
       - has_calcination_dwelling_time
@@ -420,6 +420,15 @@ classes:
       - CalcinationMixin
     description: |-
       Catalyst preparation by exsolution: metal nanoparticles are grown on
+      a perovskite oxide surface by reduction/oxidation cycling.
+
+  YueTestSynthesis:
+    is_a: PreparationMethod
+    class_uri: coremeta4cat:YueTestSynthesis
+    mixins:
+      - CalcinationMixin
+    description: |-
+      Catalyst preparation by exsolution: testing Yue changes in Synthesis
       a perovskite oxide surface by reduction/oxidation cycling.
 
 # ==================== SLOTS ====================
