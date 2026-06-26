@@ -29,6 +29,7 @@ dev = [
     "openpyxl>=3.1",
     "pandas>=2.0",
     "plotly>=5.0",
+    "ruamel-yaml>=0.18",   # comment-preserving YAML round-trip for inbox_to_schema.py
 ]
 
 # See https://hatch.pypa.io/latest/config/build/#file-selection for how to

@@ -1,0 +1,87 @@
+# .github/workflows/update_excel.yaml
+#
+# Post-merge Excel update
+# ========================
+# Runs after every push to main (i.e. after a PR is merged).
+# Regenerates docs/assets/coremeta4cat_vocabulary.xlsx from the current
+# schema and opens an auto-PR if the file changed.
+#
+# A direct push to main is intentionally avoided: the repo requires all
+# changes to go through a pull request. create-pull-request pushes to a
+# short-lived branch and opens the PR on our behalf instead.
+#
+# This is the only place that writes the workbook — keeping write access
+# out of PR workflows entirely, which avoids fork permission issues.
+---
+name: Update Excel vocabulary
+
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: [main]
+    paths:
+      # Only regenerate when something that affects the workbook changes.
+      - "src/coremeta4cat/schema/**"
+      - "scripts/schema_to_excel.py"
+      - "scripts/generate_schema_docs.py"
+
+env:
+  FORCE_COLOR: "1"
+
+permissions:
+  contents: write        # needed to push the auto-PR branch
+  pull-requests: write   # needed to open the pull request
+
+jobs:
+  update-excel:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Check out repository
+        uses: actions/checkout@v6.0.3
+        with:
+          # Use a token with write access so the commit push works.
+          # GITHUB_TOKEN is sufficient for same-repo pushes.
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install project
+        run: uv sync --dev
+
+      - name: Install just
+        run: uv tool install rust-just
+
+      - name: Regenerate Excel vocabulary from schema
+        run: just schema-to-excel
+
+      - name: Open PR for updated workbook (if changed)
+        id: create_pr
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          add-paths: docs/assets/coremeta4cat_vocabulary.xlsx
+          commit-message: "chore: regenerate vocabulary workbook from schema"
+          branch: chore/update-excel-vocabulary
+          delete-branch: true
+          title: "chore: regenerate vocabulary workbook from schema"
+          body: |
+            Automated update of the Excel vocabulary workbook following a schema change.
+
+            This PR was opened automatically by the `update-excel` workflow and only
+            touches `docs/assets/coremeta4cat_vocabulary.xlsx`.
+          labels: automated
+
+      - name: Enable auto-merge on the PR (if one was created)
+        if: steps.create_pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr merge --auto --merge \
+            "${{ steps.create_pr.outputs.pull-request-number }}"

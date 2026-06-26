@@ -94,12 +94,12 @@ lint:
 
 # Generate md documentation for the schema
 [group('model development')]
-gen-doc: _gen-yaml
+gen-doc: schema-to-excel _gen-yaml
   uv run gen-doc {{gen_doc_args}} -d {{docdir}} {{source_schema_path}}
 
 # Build docs and run test server
 [group('model development')]
-testdoc: gen-doc _serve
+testdoc: gen-doc gen-schema-docs gen-charts _serve
 
 # Generate the Python data models (dataclasses & pydantic)
 gen-python:

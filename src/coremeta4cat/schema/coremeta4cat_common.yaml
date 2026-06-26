@@ -1,4 +1,3 @@
----
 id: https://w3id.org/nfdi4cat/coremeta4cat/common/
 name: coremeta4cat-common
 title: CoreMeta4cat Common — Shared Slots and Enumerations
@@ -50,8 +49,8 @@ default_prefix: coremeta4cat
 default_range: string
 
 imports:
-  - linkml:types
-  - chem_dcat_ap
+- linkml:types
+- chem_dcat_ap
 
 # ==================== CLASSES ====================
 
@@ -60,7 +59,7 @@ classes:
   QuantitativeRange:
     class_uri: qudt:Quantity
     mixins:
-      - ClassifierMixin
+    - ClassifierMixin
     description: |-
       A quantitative property expressed as a range between a lower and upper bound,
       sharing a common unit. Used where an experiment operates over a range of
@@ -70,8 +69,8 @@ classes:
       but with min_value / max_value instead of a single value to represent an
       interval rather than a point value. Provide the shared unit as a QUDT DefinedTerm.
     slots:
-      - title
-      - description
+    - title
+    - description
     attributes:
       min_value:
         description: Lower bound of the range.
@@ -105,14 +104,14 @@ classes:
     class_uri: qudt:Quantity
     description: A quantitative measure of elapsed time (duration of a process step).
     close_mappings:
-      - PATO:0001309
+    - PATO:0001309
 
   VolumeFlowRate:
     is_a: QuantitativeAttribute
     class_uri: qudt:Quantity
     description: Volume of fluid passing a given point per unit time.
     close_mappings:
-      - PATO:0001574
+    - PATO:0001574
 
   HeatingRate:
     is_a: QuantitativeAttribute
@@ -124,35 +123,35 @@ classes:
     class_uri: qudt:Quantity
     description: Rate of rotational motion, typically expressed in revolutions per minute.
     close_mappings:
-      - PATO:0002154
+    - PATO:0002154
 
   EnergyQuantity:
     is_a: QuantitativeAttribute
     class_uri: qudt:Quantity
     description: A quantitative measure of energy (eV, keV, kJ/mol, etc.).
     close_mappings:
-      - PATO:0001021
+    - PATO:0001021
 
   ElectricPotential:
     is_a: QuantitativeAttribute
     class_uri: qudt:Quantity
     description: A quantitative measure of electric potential difference or voltage.
     close_mappings:
-      - PATO:0001464
+    - PATO:0001464
 
   PowerQuantity:
     is_a: QuantitativeAttribute
     class_uri: qudt:Quantity
     description: Rate of energy transfer per unit time (e.g. laser power in mW).
     close_mappings:
-      - PATO:0001230
+    - PATO:0001230
 
   LengthQuantity:
     is_a: QuantitativeAttribute
     class_uri: qudt:Quantity
     description: A quantitative measure of length or spatial dimension (nm, mm, cm).
     close_mappings:
-      - PATO:0001708
+    - PATO:0001708
 
   PlaneAngle:
     is_a: QuantitativeAttribute
@@ -234,7 +233,7 @@ slots:
 
   has_heating_rate:
     is_a: has_quantitative_attribute
-    slot_uri: SIO:000008
+    slot_uri: VOC4CAT:0008116
     range: HeatingRate
     description: Temperature ramp rate during a heating or cooling step.
 
@@ -326,7 +325,7 @@ slots:
 
   has_calcination_heating_rate:
     is_a: has_heating_rate
-    slot_uri: SIO:000008
+    slot_uri: VOC4CAT:0008116
     range: HeatingRate
     description: Temperature ramp rate during the calcination step.
 

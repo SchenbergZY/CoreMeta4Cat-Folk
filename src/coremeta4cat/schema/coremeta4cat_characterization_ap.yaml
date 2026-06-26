@@ -1,4 +1,3 @@
----
 id: https://w3id.org/nfdi4cat/coremeta4cat/characterization/
 name: coremeta4cat-characterization-ap
 title: CoreMeta4cat Characterization Application Profile
@@ -47,8 +46,8 @@ default_prefix: coremeta4cat
 default_range: string
 
 imports:
-  - linkml:types
-  - coremeta4cat_common   # shared has_X sub-slots, atmosphere, enums
+- linkml:types
+- coremeta4cat_common     # shared has_X sub-slots, atmosphere, enums
 
 # ==================== MIXINS ====================
 # Pure slot containers. Each targets a slot group shared by >=2 techniques.
@@ -63,8 +62,8 @@ classes:
       X-ray based techniques (PowderXRD, XRayAbsorptionSpectroscopy, XPS,
       SingleCrystalXRD).
     slots:
-      - xray_source
-      - monochromator
+    - xray_source
+    - monochromator
 
   EnergyRangeMixin:
     mixin: true
@@ -72,7 +71,7 @@ classes:
       Mixin providing energy scan range slots, shared by X-ray spectroscopy
       techniques that scan over an energy range (XRayAbsorptionSpectroscopy, XPS).
     slots:
-      - has_energy_range
+    - has_energy_range
 
   ElectronMicroscopyMixin:
     mixin: true
@@ -81,9 +80,9 @@ classes:
       microscopy techniques (TransmissionElectronMicroscopy,
       ScanningElectronMicroscopy).
     slots:
-      - gun_type
-      - acceleration_voltage
-      - magnification_setting
+    - gun_type
+    - acceleration_voltage
+    - magnification_setting
 
   TemperatureProgramMixin:
     mixin: true
@@ -92,9 +91,9 @@ classes:
       analysis and temperature-programmed reaction techniques
       (Thermogravimetry, TPO, TPR).
     slots:
-      - has_temperature_range
-      - has_heating_rate
-      - has_heating_procedure
+    - has_temperature_range
+    - has_heating_rate
+    - has_heating_procedure
 
   ChromatographyMixin:
     mixin: true
@@ -102,12 +101,12 @@ classes:
       Mixin providing chromatographic separation parameters shared by
       separation techniques (GCMS, SizeExclusionChromatography, HPLC_MS).
     slots:
-      - column_type
-      - eluent
-      - has_flow_rate
-      - has_injection_volume
-      - external_standard
-      - internal_standard
+    - column_type
+    - eluent
+    - has_flow_rate
+    - has_injection_volume
+    - external_standard
+    - internal_standard
 
   MassRangeMixin:
     mixin: true
@@ -115,7 +114,7 @@ classes:
       Mixin providing mass-to-charge scan range slots shared by mass
       spectrometry techniques (GCMS, ESI_MS).
     slots:
-      - has_mz_range
+    - has_mz_range
 
   PhotoluminescenceMixin:
     mixin: true
@@ -124,10 +123,10 @@ classes:
       photoluminescence techniques (PhotoluminescenceSpectroscopy,
       PhotoluminescenceLifetime).
     slots:
-      - excitation_wavelength
-      - emission_wavelength
-      - optical_filter
-      - has_temperature
+    - excitation_wavelength
+    - emission_wavelength
+    - optical_filter
+    - has_temperature
 
   ElectrochemistryMixin:
     mixin: true
@@ -136,13 +135,13 @@ classes:
       electrochemical characterization techniques (CyclicVoltammetry,
       ConductivityMeasurement).
     slots:
-      - reference_electrode
-      - working_electrode
-      - counter_electrode
-      - electrolyte_composition
-      - electrolyte_concentration
-      - has_atmosphere
-      - has_temperature
+    - reference_electrode
+    - working_electrode
+    - counter_electrode
+    - electrolyte_composition
+    - electrolyte_concentration
+    - has_atmosphere
+    - has_temperature
 
   # ==================== CHARACTERIZATION ACTIVITY ====================
 
@@ -163,11 +162,11 @@ classes:
       following DCAT-AP-PLUS Pattern 3 — exactly as NMRSpectroscopy uses
       rdf_type: CHMO:0000613.
     slots:
-      - sample_state
-      - sample_description
-      - sample_preparation
-      - has_sample_pretreatment
-      - detector_type
+    - sample_state
+    - sample_description
+    - sample_preparation
+    - has_sample_pretreatment
+    - detector_type
     slot_usage:
       carried_out_by:
         description: |-
@@ -210,25 +209,25 @@ classes:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000158
     mixins:
-      - XRaySourceMixin
+    - XRaySourceMixin
     description: Powder X-ray diffraction for phase identification and structural analysis.
     slots:
-      - has_two_theta_range
-      - step_size
-      - has_operation_mode
-      - has_atmosphere
-      - has_temperature
-      - sample_spinning_speed
-      - has_experiment_duration
+    - has_two_theta_range
+    - step_size
+    - has_operation_mode
+    - has_atmosphere
+    - has_temperature
+    - sample_spinning_speed
+    - has_experiment_duration
 
   SingleCrystalXRD:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000852
     mixins:
-      - XRaySourceMixin
+    - XRaySourceMixin
     description: Single crystal X-ray diffraction for structure determination.
     slots:
-      - has_temperature
+    - has_temperature
 
   # ==================== X-RAY SPECTROSCOPY ====================
 
@@ -236,45 +235,45 @@ classes:
     is_a: CharacterizationTechnique
     class_uri: VOC4CAT:0000286
     mixins:
-      - XRaySourceMixin
-      - EnergyRangeMixin
+    - XRaySourceMixin
+    - EnergyRangeMixin
     description: X-ray absorption spectroscopy (XAS/XANES/EXAFS) for electronic and local structure analysis.
     slots:
-      - has_operation_mode
-      - element_analyzed
-      - absorption_edge
-      - energy_resolution
-      - has_temperature
-      - beamline_source
-      - noise_of_measurement
-      - number_of_cycles
+    - has_operation_mode
+    - element_analyzed
+    - absorption_edge
+    - energy_resolution
+    - has_temperature
+    - beamline_source
+    - noise_of_measurement
+    - number_of_cycles
 
   XPS:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000404
     mixins:
-      - XRaySourceMixin
-      - EnergyRangeMixin
+    - XRaySourceMixin
+    - EnergyRangeMixin
     description: X-ray photoelectron spectroscopy for surface elemental and chemical state analysis.
     slots:
-      - total_acquisition_time
-      - number_of_scans
-      - step_size
-      - pass_energy
-      - spot_size
-      - lense_mode
-      - charge_compensation
-      - has_atmosphere
+    - total_acquisition_time
+    - number_of_scans
+    - step_size
+    - pass_energy
+    - spot_size
+    - lense_mode
+    - charge_compensation
+    - has_atmosphere
 
   EDX:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000309
     description: Energy-dispersive X-ray spectroscopy for elemental mapping and quantification.
     slots:
-      - primary_energy
-      - counting_time
-      - resolution
-      - calibration_method
+    - primary_energy
+    - counting_time
+    - resolution
+    - calibration_method
 
   # ==================== VIBRATIONAL SPECTROSCOPY ====================
 
@@ -283,13 +282,13 @@ classes:
     class_uri: CHMO:0000630
     description: Infrared spectroscopy (FTIR/ATR) for functional group and surface species identification.
     slots:
-      - has_operation_mode
-      - has_wavenumber_range
-      - step_size
-      - has_temperature
-      - background_correction
-      - number_of_scans
-      - has_atmosphere
+    - has_operation_mode
+    - has_wavenumber_range
+    - step_size
+    - has_temperature
+    - background_correction
+    - number_of_scans
+    - has_atmosphere
 
   DRIFTS:
     is_a: CharacterizationTechnique
@@ -298,31 +297,31 @@ classes:
       Diffuse reflectance infrared Fourier transform spectroscopy for in-situ
       surface species identification under reactive gas conditions.
     slots:
-      - adsorption_gas
-      - has_atmosphere
-      - has_flow_rate
-      - has_wavenumber_range
-      - diluting_reference
-      - ratio_reference_sample
-      - step_size
-      - resolution
-      - background_correction_method
-      - has_temperature
-      - number_of_scans
+    - adsorption_gas
+    - has_atmosphere
+    - has_flow_rate
+    - has_wavenumber_range
+    - diluting_reference
+    - ratio_reference_sample
+    - step_size
+    - resolution
+    - background_correction_method
+    - has_temperature
+    - number_of_scans
 
   RamanSpectroscopy:
     is_a: CharacterizationTechnique
     class_uri: VOC4CAT:0000069
     description: Raman spectroscopy for vibrational and structural characterization.
     slots:
-      - excitation_laser_wavelength
-      - excitation_laser_power
-      - magnification_setting
-      - has_integration_time
-      - number_of_scans
-      - has_atmosphere
-      - has_temperature
-      - filter_or_grating
+    - excitation_laser_wavelength
+    - excitation_laser_power
+    - magnification_setting
+    - has_integration_time
+    - number_of_scans
+    - has_atmosphere
+    - has_temperature
+    - filter_or_grating
 
   # ==================== NMR SPECTROSCOPY ====================
 
@@ -335,14 +334,14 @@ classes:
       nmr_dcat_ap profile (MARGARITAS) should be used in combination with
       this subprofile.
     slots:
-      - nucleus
-      - solvent
-      - irradiation_frequency
-      - has_temperature
-      - nmr_pulse_sequence
-      - nmr_sample_tube
-      - number_of_scans
-      - has_atmosphere
+    - nucleus
+    - solvent
+    - irradiation_frequency
+    - has_temperature
+    - nmr_pulse_sequence
+    - nmr_sample_tube
+    - number_of_scans
+    - has_atmosphere
 
   # ==================== ELECTRON MICROSCOPY ====================
 
@@ -350,20 +349,20 @@ classes:
     is_a: CharacterizationTechnique
     class_uri: VOC4CAT:0000078
     mixins:
-      - ElectronMicroscopyMixin
+    - ElectronMicroscopyMixin
     description: TEM for atomic-resolution imaging and diffraction of catalyst particles.
     slots:
-      - has_operation_mode
+    - has_operation_mode
 
   ScanningElectronMicroscopy:
     is_a: CharacterizationTechnique
     class_uri: VOC4CAT:0000075
     mixins:
-      - ElectronMicroscopyMixin
+    - ElectronMicroscopyMixin
     description: SEM for surface morphology and particle size/shape imaging.
     slots:
-      - image_resolution
-      - field_emitter
+    - image_resolution
+    - field_emitter
 
   # ==================== THERMAL ANALYSIS ====================
 
@@ -371,32 +370,32 @@ classes:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000690
     mixins:
-      - TemperatureProgramMixin
+    - TemperatureProgramMixin
     description: Thermogravimetric analysis (TGA/DTG) for mass loss, decomposition, and oxidation state characterization.
     slots:
-      - has_operation_mode
-      - has_atmosphere
-      - initial_temperature
-      - final_temperature
-      - has_sample_mass
+    - has_operation_mode
+    - has_atmosphere
+    - initial_temperature
+    - final_temperature
+    - has_sample_mass
 
   TPR:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0002908
     mixins:
-      - TemperatureProgramMixin
+    - TemperatureProgramMixin
     description: Temperature-programmed reduction for reducibility and metal-support interaction characterization.
     slots:
-      - reducing_gas_composition
+    - reducing_gas_composition
 
   TPO:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0002907
     mixins:
-      - TemperatureProgramMixin
+    - TemperatureProgramMixin
     description: Temperature-programmed oxidation for coke quantification and reoxidation characterization.
     slots:
-      - oxidizing_gas_composition
+    - oxidizing_gas_composition
 
   # ==================== SURFACE AREA AND POROSITY ====================
 
@@ -405,11 +404,11 @@ classes:
     class_uri: ENM:0000064
     description: Brunauer-Emmett-Teller analysis for specific surface area and pore size distribution.
     slots:
-      - adsorbate_gas
-      - degassing_temperature
-      - measurement_temperature
-      - pore_size_distribution_method
-      - has_sample_mass
+    - adsorbate_gas
+    - degassing_temperature
+    - measurement_temperature
+    - pore_size_distribution_method
+    - has_sample_mass
 
   # ==================== ELEMENTAL ANALYSIS ====================
 
@@ -418,19 +417,19 @@ classes:
     class_uri: CHMO:0000267
     description: Inductively coupled plasma atomic emission spectroscopy for bulk elemental composition.
     slots:
-      - element_analyzed
-      - calibration_method
-      - detection_limit
-      - matrix_effect_correction
+    - element_analyzed
+    - calibration_method
+    - detection_limit
+    - matrix_effect_correction
 
   ElementalAnalysis:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0001075
     description: Combustion elemental analysis (CHNS/O) for carbon, hydrogen, nitrogen, sulfur content.
     slots:
-      - elements_analyzed
-      - combustion_temperature
-      - carrier_gas
+    - elements_analyzed
+    - combustion_temperature
+    - carrier_gas
 
   # ==================== OPTICAL SPECTROSCOPY ====================
 
@@ -439,33 +438,33 @@ classes:
     class_uri: VOC4CAT:0000079
     description: UV-Vis spectroscopy for electronic transitions, band gap, and concentration determination.
     slots:
-      - minimum_wavelength
-      - maximum_wavelength
-      - path_length
-      - solvent
-      - has_concentration
+    - minimum_wavelength
+    - maximum_wavelength
+    - path_length
+    - solvent
+    - has_concentration
 
   PhotoluminescenceSpectroscopy:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000773
     mixins:
-      - PhotoluminescenceMixin
+    - PhotoluminescenceMixin
     description: Photoluminescence spectroscopy for defect and charge carrier characterization.
     slots:
-      - emission_range
-      - slit_width
-      - step_size
-      - has_integration_time
+    - emission_range
+    - slit_width
+    - step_size
+    - has_integration_time
 
   PhotoluminescenceLifetime:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0001917
     mixins:
-      - PhotoluminescenceMixin
+    - PhotoluminescenceMixin
     description: Time-resolved photoluminescence for charge carrier lifetime and recombination dynamics.
     slots:
-      - lifetime_fitting_model
-      - number_of_shots
+    - lifetime_fitting_model
+    - number_of_shots
 
   # ==================== ELECTROCHEMICAL ====================
 
@@ -473,26 +472,26 @@ classes:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000025
     mixins:
-      - ElectrochemistryMixin
+    - ElectrochemistryMixin
     description: Cyclic voltammetry for electrochemical activity, redox potential, and capacitance characterization.
     slots:
-      - scan_rate
-      - minimum_potential
-      - maximum_potential
-      - step_size_potential
-      - number_of_cycles
+    - scan_rate
+    - minimum_potential
+    - maximum_potential
+    - step_size_potential
+    - number_of_cycles
 
   ConductivityMeasurement:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000010
     mixins:
-      - ElectrochemistryMixin
+    - ElectrochemistryMixin
     description: Electrical conductivity measurement for ionic and electronic transport characterization.
     slots:
-      - electrode_configuration
-      - ac_frequency
-      - ac_dc_mode
-      - sample_geometry
+    - electrode_configuration
+    - ac_frequency
+    - ac_dc_mode
+    - sample_geometry
 
   # ==================== PARTICLE SIZE ====================
 
@@ -501,14 +500,14 @@ classes:
     class_uri: CHMO:0000167
     description: Dynamic light scattering for hydrodynamic particle size distribution in suspension.
     slots:
-      - solvent
-      - has_concentration
-      - light_wavelength
-      - scattering_angle
-      - refractive_index
-      - has_temperature
-      - dispersant
-      - measurement_duration
+    - solvent
+    - has_concentration
+    - light_wavelength
+    - scattering_angle
+    - refractive_index
+    - has_temperature
+    - dispersant
+    - measurement_duration
 
   # ==================== MASS SPECTROMETRY ====================
 
@@ -516,16 +515,16 @@ classes:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000482
     mixins:
-      - MassRangeMixin
+    - MassRangeMixin
     description: Electrospray ionisation mass spectrometry for molecular mass and identity determination.
     slots:
-      - has_operation_mode
-      - spray_voltage
-      - capillary_temperature
-      - solvent_composition
-      - has_flow_rate
-      - carrier_gas
-      - has_concentration
+    - has_operation_mode
+    - spray_voltage
+    - capillary_temperature
+    - solvent_composition
+    - has_flow_rate
+    - carrier_gas
+    - has_concentration
 
   # ==================== CHROMATOGRAPHY ====================
 
@@ -533,42 +532,42 @@ classes:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000497
     mixins:
-      - ChromatographyMixin
-      - MassRangeMixin
+    - ChromatographyMixin
+    - MassRangeMixin
     description: Gas chromatography-mass spectrometry for volatile compound identification and quantification.
     slots:
-      - carrier_gas
-      - carrier_gas_purity
-      - inlet_temperature
-      - minimum_oven_temperature
-      - maximum_oven_temperature
-      - heating_ramp
-      - has_heating_procedure
-      - acquisition_mode
-      - solvent_delay
-      - trace_ion_detection
-      - split_ratio
+    - carrier_gas
+    - carrier_gas_purity
+    - inlet_temperature
+    - minimum_oven_temperature
+    - maximum_oven_temperature
+    - heating_ramp
+    - has_heating_procedure
+    - acquisition_mode
+    - solvent_delay
+    - trace_ion_detection
+    - split_ratio
 
   SizeExclusionChromatography:
     is_a: CharacterizationTechnique
     class_uri: AFP:0000843
     mixins:
-      - ChromatographyMixin
+    - ChromatographyMixin
     description: Size exclusion chromatography for molecular weight distribution determination.
     slots:
-      - has_temperature
-      - calibration_standard
+    - has_temperature
+    - calibration_standard
 
   HighPerformanceLiquidChromatographyMassSpectrometry:
     is_a: CharacterizationTechnique
     class_uri: CHMO:0000796
     mixins:
-      - ChromatographyMixin
+    - ChromatographyMixin
     description: High-performance liquid chromatography-mass spectrometry for compound identification and quantification.
     slots:
-      - gradient_program
-      - ionization_mode
-      - has_temperature
+    - gradient_program
+    - ionization_mode
+    - has_temperature
 
 # ==================== SLOTS ====================
 # Only slots exclusive to this subprofile are declared here.
@@ -1223,7 +1222,7 @@ slots:
   heating_ramp:
     description: Temperature ramp rate in GC oven programme.
     range: HeatingRate
-    slot_uri: coremeta4cat:heating_ramp
+    slot_uri: VOC4CAT:0008116
     multivalued: true
     inlined_as_list: true
 

@@ -1,0 +1,502 @@
+# .github/workflows/excel_inbox.yaml
+#
+# Excel Inbox — apply vocabulary changes and validate
+# ====================================================
+# Triggered when a PR to main touches the inbox/ folder.
+#
+# Contributor flow:
+#   1. Download docs/assets/coremeta4cat_vocabulary.xlsx.
+#   2. Edit it (add/modify/delete rows), re-save as coremeta4cat_vocabulary.xlsx.
+#   3. Open a PR that places the file at inbox/coremeta4cat_vocabulary.xlsx.
+#   4. This workflow runs three dependent jobs:
+#        a. Job 1 (apply-inbox): Applies the changes to the schema YAML files.
+#           Saves the modified schema and apply report as CI artifacts.
+#        b. Job 2 (validate-schema, matrix 3.9–3.13): Validates the modified
+#           schema on each supported Python version.  Appears as five individual
+#           check runs in the PR — same visibility as main.yaml tests.
+#        c. Job 3 (finish): Runs a round-trip check (inbox Excel vs the updated
+#           schema YAMLs), posts a detailed PR comment, then on success commits
+#           the schema changes back to the branch and removes the inbox file.
+#   5. The bot-commit in Job 3 triggers main.yaml to run its full test matrix on
+#      the updated PR branch (branch-protection required checks are satisfied).
+#      Because the inbox file is gone, main.yaml's paths-ignore suppresses any
+#      re-run of excel_inbox.yaml — no infinite loop.
+#   6. A maintainer reviews the diff, verifies the bot commit, and merges.
+#   7. After merge, update_excel.yaml regenerates docs/assets/coremeta4cat_vocabulary.xlsx.
+#
+# Security note: uses pull_request_target with two-checkout pattern.
+# Contributor-controlled files (the xlsx) are only opened as data, never
+# executed.  All scripts run from main (checked out in _main_branch/).
+# See: https://securitylab.github.com/resources/github-actions-preventing-pwn-requests/
+---
+name: Excel inbox — apply and validate
+
+on:  # yamllint disable-line rule:truthy
+  pull_request_target:
+    branches:
+      - main
+    types: [opened, reopened, synchronize]
+    paths:
+      - "inbox/**"
+
+env:
+  FORCE_COLOR: "1"
+  INBOX_FILE: "inbox/coremeta4cat_vocabulary.xlsx"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Job 1 — Apply inbox Excel changes to the schema YAMLs
+  # ══════════════════════════════════════════════════════════════════════════════
+  apply-inbox:
+    name: Apply inbox Excel to schema
+    if: ${{ !github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: read   # reads fork PR branch; write is granted only in the finish job
+
+    outputs:
+      inbox_present: ${{ steps.inbox_check.outputs.present }}
+      apply_status:  ${{ steps.apply.outputs.status }}
+
+    steps:
+
+      # ── Checkout ─────────────────────────────────────────────────────────────
+
+      - name: Check out PR branch (fork-safe)
+        uses: actions/checkout@v6.0.3
+        with:
+          # Contributor's branch — only read here; write-back is in the finish job.
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check out main branch into _main_branch/
+        # Always run OUR scripts from main — never from the PR.
+        # This is the key security boundary for pull_request_target.
+        uses: actions/checkout@v6.0.3
+        with:
+          ref: main
+          path: _main_branch
+          fetch-depth: 1
+          persist-credentials: false
+
+      # ── Tool setup ───────────────────────────────────────────────────────────
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install project from main branch
+        run: uv sync --dev
+        working-directory: _main_branch
+
+      # ── Pre-flight ───────────────────────────────────────────────────────────
+
+      - name: Check inbox file exists
+        id: inbox_check
+        run: |
+          if [ -f "${{ env.INBOX_FILE }}" ]; then
+            echo "present=true"  >> "$GITHUB_OUTPUT"
+            echo "Inbox file found: ${{ env.INBOX_FILE }}"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "No inbox file at ${{ env.INBOX_FILE }} — nothing to process."
+          fi
+
+      # ── Apply ────────────────────────────────────────────────────────────────
+
+      - name: Apply inbox to schema (inbox_to_schema.py)
+        if: steps.inbox_check.outputs.present == 'true'
+        id: apply
+        run: |
+          # set +e: prevents shell abort on non-zero exit before we save output.
+          set +e
+          OUTPUT=$(uv run python scripts/inbox_to_schema.py \
+            "../${{ env.INBOX_FILE }}" 2>&1)
+          EXIT_CODE=$?
+          set -e
+
+          echo "$OUTPUT"
+
+          # Save to file for the finish job's PR comment.
+          # printf '%s\n' ensures a trailing newline so GITHUB_ENV delimiter
+          # parsing in the finish job always finds its closing marker on its own line.
+          printf '%s\n' "$OUTPUT" > /tmp/apply_output.md
+
+          case "$EXIT_CODE" in
+            0) echo "status=ok"       >> "$GITHUB_OUTPUT" ;;
+            2) echo "status=warnings" >> "$GITHUB_OUTPUT" ;;
+            *) echo "status=errors"   >> "$GITHUB_OUTPUT" ;;
+          esac
+
+          # Fail this step (continue-on-error keeps the job alive for artifact upload).
+          if [ "$EXIT_CODE" -eq 3 ] || [ "$EXIT_CODE" -eq 1 ]; then
+            exit 1
+          fi
+        working-directory: _main_branch
+        continue-on-error: true
+
+      # ── Artifact upload ──────────────────────────────────────────────────────
+
+      - name: Upload apply output (for PR comment in finish job)
+        if: steps.inbox_check.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: apply-output
+          path: /tmp/apply_output.md
+          retention-days: 1
+
+      - name: Upload modified schema (for validate-schema and finish jobs)
+        if: >
+          steps.inbox_check.outputs.present == 'true' &&
+          steps.apply.outcome != 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: modified-schema
+          path: _main_branch/src/coremeta4cat/schema/
+          retention-days: 1
+
+      # ── Gate ────────────────────────────────────────────────────────────────
+
+      - name: Fail job if apply errored (after artifacts are saved)
+        if: steps.apply.outcome == 'failure'
+        run: |
+          echo "::error::inbox_to_schema.py reported errors — schema was not modified."
+          exit 1
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Job 2 — Validate the modified schema on every supported Python version
+  # ══════════════════════════════════════════════════════════════════════════════
+  validate-schema:
+    name: Validate schema (Python ${{ matrix.python-version }})
+    needs: apply-inbox
+    if: >
+      !github.event.pull_request.merged &&
+      needs.apply-inbox.outputs.inbox_present == 'true' &&
+      needs.apply-inbox.outputs.apply_status != 'errors'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions: {}
+
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+      fail-fast: false
+
+    steps:
+
+      - name: Check out main branch
+        # Run the test suite against the main-branch project with the modified
+        # schema injected from the artifact.
+        uses: actions/checkout@v6.0.3
+        with:
+          ref: main
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Download modified schema
+        uses: actions/download-artifact@v4
+        with:
+          name: modified-schema
+          path: src/coremeta4cat/schema/
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v6.2.0
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install just
+        run: uv tool install rust-just
+
+      - name: Install project
+        run: uv sync --dev
+
+      - name: Regenerate Excel vocabulary from schema
+        # Mirrors main.yaml: ensures docs/assets/coremeta4cat_vocabulary.xlsx
+        # reflects the modified schema before any test that reads it runs.
+        run: just schema-to-excel
+
+      - name: Run test suite
+        run: just test
+
+  # ══════════════════════════════════════════════════════════════════════════════
+  # Job 3 — Round-trip check, post PR comment, commit schema to PR branch
+  # ══════════════════════════════════════════════════════════════════════════════
+  finish:
+    name: Round-trip, comment, and commit
+    needs: [apply-inbox, validate-schema]
+    # always() so we post the PR comment even when upstream jobs failed/were skipped.
+    if: >
+      always() &&
+      !github.event.pull_request.merged &&
+      needs.apply-inbox.outputs.inbox_present == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    permissions:
+      contents: write       # to push the bot-commit back to the PR branch
+      pull-requests: write  # to post/update the PR comment
+
+    steps:
+
+      # ── Checkout ─────────────────────────────────────────────────────────────
+
+      - name: Check out PR branch (fork-safe)
+        uses: actions/checkout@v6.0.3
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Check out main branch into _main_branch/
+        uses: actions/checkout@v6.0.3
+        with:
+          ref: main
+          path: _main_branch
+          fetch-depth: 1
+          persist-credentials: false
+
+      # ── Tool setup ───────────────────────────────────────────────────────────
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v8.2.0
+        with:
+          python-version: "3.12"
+          enable-cache: true
+          cache-dependency-glob: "_main_branch/uv.lock"
+
+      - name: Install project from main branch
+        run: uv sync --dev
+        working-directory: _main_branch
+
+      # ── Artifact download ─────────────────────────────────────────────────────
+
+      - name: Download apply output
+        uses: actions/download-artifact@v4
+        with:
+          name: apply-output
+          path: /tmp/apply-output/
+
+      - name: Download modified schema (for round-trip check and commit)
+        if: needs.apply-inbox.outputs.apply_status != 'errors'
+        uses: actions/download-artifact@v4
+        with:
+          name: modified-schema
+          path: _main_branch/src/coremeta4cat/schema/
+        continue-on-error: true
+
+      - name: Load apply output into environment
+        run: |
+          if [ -f /tmp/apply-output/apply_output.md ]; then
+            # Use a random delimiter so the content can never accidentally contain it.
+            # The explicit leading \n before the delimiter ensures it lands on its own
+            # line even when the file was written without a trailing newline.
+            DELIM="$(openssl rand -hex 16)"
+            {
+              printf 'apply_output<<%s\n' "$DELIM"
+              cat /tmp/apply-output/apply_output.md
+              printf '\n%s\n' "$DELIM"
+            } >> "$GITHUB_ENV"
+          fi
+
+      # ── Round-trip check ──────────────────────────────────────────────────────
+
+      - name: Round-trip check (inbox Excel vs updated schema)
+        # excel_to_schema.py resolves SCHEMA_DIR from its own location on disk, so
+        # it reads the modified YAMLs we just restored from the artifact in
+        # _main_branch/src/coremeta4cat/schema/ — no separate regen step needed.
+        if: needs.apply-inbox.outputs.apply_status != 'errors'
+        id: roundtrip
+        run: |
+          set +e
+          RT_OUTPUT=$(uv run python scripts/excel_to_schema.py \
+            "../${{ env.INBOX_FILE }}" 2>&1)
+          RT_EXIT=$?
+          set -e
+
+          echo "$RT_OUTPUT"
+
+          {
+            echo "roundtrip_output<<RT_EOF"
+            echo "$RT_OUTPUT"
+            echo "RT_EOF"
+          } >> "$GITHUB_ENV"
+
+          if [ "$RT_EXIT" -eq 0 ] \
+             && echo "$RT_OUTPUT" | grep -q "Schema and workbook are fully aligned"; then
+            echo "status=ok"   >> "$GITHUB_OUTPUT"
+          else
+            echo "status=diff" >> "$GITHUB_OUTPUT"
+          fi
+        working-directory: _main_branch
+        continue-on-error: true
+
+      # ── PR comment ────────────────────────────────────────────────────────────
+
+      - name: Post PR comment
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const applyStatus = "${{ needs.apply-inbox.outputs.apply_status }}";
+            // "success" | "failure" | "skipped" | "cancelled"
+            const testResult  = "${{ needs.validate-schema.result }}";
+            const rtStatus    = "${{ steps.roundtrip.outputs.status }}";
+
+            const applyOutput = (process.env.apply_output     || "").trim();
+            const rtOutput    = (process.env.roundtrip_output || "").trim();
+
+            const applyFailed = applyStatus === "errors";
+            const testFailed  = testResult  === "failure";
+            const testSkipped = testResult  === "skipped" || testResult === "cancelled";
+            const rtDiff      = rtStatus    === "diff";
+
+            const allOk = !applyFailed && !testFailed && !testSkipped && !rtDiff
+                          && testResult === "success";
+
+            const sections = [];
+
+            // ── inbox_to_schema.py report ──────────────────────────────────
+            if (applyOutput) {
+              sections.push(applyOutput, "");
+            } else {
+              sections.push(
+                "## 📋 Inbox vocabulary — processing report", "",
+                "*(No output from inbox_to_schema.py)*", ""
+              );
+            }
+
+            // ── schema validation ──────────────────────────────────────────
+            if (applyFailed) {
+              sections.push(
+                "### ⏭️ Schema validation — skipped", "",
+                "Tests were not run because the inbox processing step failed.", ""
+              );
+            } else {
+              const icon = testResult === "success" ? "✅"
+                         : testResult === "failure" ? "❌" : "⏭️";
+              const msg  = testResult === "success"
+                ? "All LinkML validation checks passed on Python 3.9 – 3.13."
+                : testResult === "failure"
+                  ? "**LinkML validation failed on one or more Python versions.** "
+                    + "See the individual *Validate schema (Python …)* check runs for details."
+                  : "Schema validation was skipped or cancelled.";
+              sections.push(
+                `### ${icon} Schema validation (\`just test\`, Python 3.9 – 3.13)`, "",
+                msg, ""
+              );
+            }
+
+            // ── round-trip check ───────────────────────────────────────────
+            if (rtStatus) {
+              const icon = rtStatus === "ok" ? "✅" : "⚠️";
+              const msg  = rtStatus === "ok"
+                ? "The inbox workbook and the updated schema are fully aligned."
+                : "Some fields in the inbox workbook differ from the updated schema. "
+                  + "This may indicate fields that could not be automatically converted.";
+              sections.push(
+                `### ${icon} Round-trip check`, "",
+                msg, "",
+                "<details><summary>Diff output</summary>", "",
+                "```", rtOutput.slice(0, 4000), "```",
+                "</details>", ""
+              );
+            }
+
+            // ── summary ────────────────────────────────────────────────────
+            sections.push("---", "");
+            if (allOk) {
+              sections.push(
+                "✅ **All checks passed.** Schema changes have been applied to this "
+                + "branch. A maintainer will review the diff and merge. "
+                + "The vocabulary workbook (`docs/assets/`) will be regenerated "
+                + "automatically by `update_excel.yaml` after merge.", ""
+              );
+            } else {
+              sections.push(
+                "❌ **Some checks failed.** Fix the issues listed above, "
+                + "update the workbook, and push again.", ""
+              );
+            }
+
+            const body = sections.join("\n");
+
+            // Update existing bot comment or create a new one
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo:  context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find(c =>
+              c.user.type === "Bot" &&
+              (c.body.includes("Inbox vocabulary") || c.body.includes("Excel inbox"))
+            );
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                comment_id: existing.id, body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: context.issue.number, body,
+              });
+            }
+
+      # ── Gate / commit ─────────────────────────────────────────────────────────
+
+      - name: Fail on errors (after comment posted)
+        if: >
+          needs.apply-inbox.outputs.apply_status == 'errors' ||
+          needs.validate-schema.result == 'failure'
+        run: |
+          echo "::error::Inbox processing failed. See the PR comment for details."
+          exit 1
+
+      - name: Commit schema changes and remove inbox file
+        if: >
+          needs.apply-inbox.outputs.apply_status != 'errors' &&
+          needs.validate-schema.result == 'success'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Copy modified schema YAMLs from _main_branch/ back to PR branch.
+          mkdir -p src/coremeta4cat/schema/
+          cp -f _main_branch/src/coremeta4cat/schema/*.yaml \
+            src/coremeta4cat/schema/
+
+          # Stage schema YAMLs and remove the inbox file.
+          # docs/assets/coremeta4cat_vocabulary.xlsx is NOT committed here —
+          # update_excel.yaml is the designated owner of that file and will
+          # regenerate it canonically after this PR is merged to main.
+          git add src/coremeta4cat/schema/*.yaml
+          git rm --force "${{ env.INBOX_FILE }}"
+
+          # No [skip ci]: this commit triggers main.yaml to run its full test
+          # matrix on the updated PR branch, satisfying branch-protection checks.
+          # main.yaml's paths-ignore suppresses re-running excel_inbox.yaml
+          # because the inbox file is now absent from the PR diff.
+          git commit -m "ci: apply inbox vocabulary changes"
+          git push

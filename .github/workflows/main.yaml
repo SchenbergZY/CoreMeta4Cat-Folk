@@ -7,6 +7,12 @@ on:  # yamllint disable-line rule:truthy
   push:
     branches: [main]
   pull_request:
+    # Inbox-only PRs are handled exclusively by excel_inbox.yaml.
+    # This workflow fires after the excel_inbox bot-commit (which removes the
+    # inbox file and adds schema changes), so the test matrix runs on the
+    # correct, already-validated schema — satisfying branch-protection checks.
+    paths-ignore:
+      - "inbox/**"
 
 env:
   FORCE_COLOR: "1" # Make tools pretty.
@@ -26,13 +32,13 @@ jobs:
 
       # https://github.com/actions/checkout
       - name: Check out repository
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6.0.3
         with:
           persist-credentials: false
 
       # https://github.com/astral-sh/setup-uv
       - name: Install uv
-        uses: astral-sh/setup-uv@v8.1.0
+        uses: astral-sh/setup-uv@v8.2.0
         with:
           python-version: ${{ matrix.python-version }}
           enable-cache: true
@@ -50,6 +56,11 @@ jobs:
 
       - name: Install project
         run: uv sync --dev
+
+      - name: Regenerate Excel vocabulary from schema
+        # Keeps docs/assets/coremeta4cat_vocabulary.xlsx up to date
+        # before any documentation build step uses it.
+        run: just schema-to-excel
 
       - name: Run test suite
         run: just test
