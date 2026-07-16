@@ -72,18 +72,23 @@ jobs:
       # ── Checkout ─────────────────────────────────────────────────────────────
 
       - name: Check out PR branch (fork-safe)
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
         with:
           # Contributor's branch — only read here; write-back is in the finish job.
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 1
           persist-credentials: false
+          # actions/checkout@v7 refuses fork checkouts under pull_request_target
+          # by default (anti "pwn request" guard). Safe to opt in here: this
+          # checkout is read-only data (the xlsx is never executed) and every
+          # script that actually runs is checked out from main below.
+          allow-unsafe-pr-checkout: true
 
       - name: Check out main branch into _main_branch/
         # Always run OUR scripts from main — never from the PR.
         # This is the key security boundary for pull_request_target.
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
         with:
           ref: main
           path: _main_branch
@@ -153,7 +158,7 @@ jobs:
 
       - name: Upload apply output (for PR comment in finish job)
         if: steps.inbox_check.outputs.present == 'true'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: apply-output
           path: /tmp/apply_output.md
@@ -163,7 +168,7 @@ jobs:
         if: >
           steps.inbox_check.outputs.present == 'true' &&
           steps.apply.outcome != 'failure'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: modified-schema
           path: _main_branch/src/coremeta4cat/schema/
@@ -201,14 +206,14 @@ jobs:
       - name: Check out main branch
         # Run the test suite against the main-branch project with the modified
         # schema injected from the artifact.
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
         with:
           ref: main
           fetch-depth: 1
           persist-credentials: false
 
       - name: Download modified schema
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: modified-schema
           path: src/coremeta4cat/schema/
@@ -221,7 +226,7 @@ jobs:
           cache-dependency-glob: "uv.lock"
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v6.2.0
+        uses: actions/setup-python@v6.3.0
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -262,15 +267,17 @@ jobs:
       # ── Checkout ─────────────────────────────────────────────────────────────
 
       - name: Check out PR branch (fork-safe)
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
         with:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.event.pull_request.head.ref }}
           fetch-depth: 0
           persist-credentials: true
+          # See the apply-inbox job for why this opt-in is safe here.
+          allow-unsafe-pr-checkout: true
 
       - name: Check out main branch into _main_branch/
-        uses: actions/checkout@v6.0.3
+        uses: actions/checkout@v7.0.0
         with:
           ref: main
           path: _main_branch
@@ -293,14 +300,14 @@ jobs:
       # ── Artifact download ─────────────────────────────────────────────────────
 
       - name: Download apply output
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: apply-output
           path: /tmp/apply-output/
 
       - name: Download modified schema (for round-trip check and commit)
         if: needs.apply-inbox.outputs.apply_status != 'errors'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: modified-schema
           path: _main_branch/src/coremeta4cat/schema/
@@ -355,7 +362,7 @@ jobs:
       # ── PR comment ────────────────────────────────────────────────────────────
 
       - name: Post PR comment
-        uses: actions/github-script@v7
+        uses: actions/github-script@v9
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |

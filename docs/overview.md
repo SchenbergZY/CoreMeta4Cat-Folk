@@ -51,12 +51,12 @@ was_generated_by:
   - id: ex:reaction-001
     type: Reaction
     catalyst_quantity: 100.0   # mg
-    reactant:
+    used_reactant:
       - "1 vol% CO in N2"
       - "2 vol% O2 in N2"
     reactor_temperature_range: "200–400 °C"
     experiment_pressure: 1.0   # bar
-    carried_out_by:
+    used_reactor:
       id: ex:reactor-001
       type: FixedBedReactor
 
@@ -124,7 +124,7 @@ The **Characterization** pillar covers twenty-eight analytical techniques curren
 
 The **Reaction** pillar represents the catalytic process being studied. It is modelled as a DCAT-AP-PLUS `EvaluatedActivity` — the process the dataset is *about*, not the process that *generates* the data. This distinction matters: for operando experiments (e.g. in-situ XRD during a reaction), the dataset carries both `was_generated_by: Characterization` and `is_about_activity: Reaction`.
 
-The reactor is linked via `carried_out_by` as one of eight `ReactorDesignType` subclasses:
+The reactor is linked via `used_reactor` (`is_a: carried_out_by`) as one of eight `ChemicalReactor` subclasses:
 
 <div class="grid" markdown>
 

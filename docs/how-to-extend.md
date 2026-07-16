@@ -30,19 +30,19 @@ Each extension type has a designated parent class (see the table below). Always 
 
 | What you are adding | Parent class | File |
 |---|---|---|
-| New preparation method | `PreparationMethod` | `catcore_synthesis_ap.yaml` |
-| New characterisation technique | `CharacterizationTechnique` | `catcore_characterization_ap.yaml` |
-| New reactor type | `ReactorDesignType` | `catcore_reaction_ap.yaml` |
-| New simulation method | `SimulationMethod` | `catcore_simulation_ap.yaml` |
-| New calculated property | `CalculatedProperty` | `catcore_simulation_ap.yaml` |
+| New preparation method | `PreparationMethod` | `coremeta4cat_synthesis_ap.yaml` |
+| New characterisation technique | `CharacterizationTechnique` | `coremeta4cat_characterization_ap.yaml` |
+| New reactor type | `ChemicalReactor` (abstract) | `coremeta4cat_reaction_ap.yaml` |
+| New simulation method | `SimulationMethod` | `coremeta4cat_simulation_ap.yaml` |
+| New calculated property | `CalculatedProperty` | `coremeta4cat_simulation_ap.yaml` |
 | New mixin (slot group) | *(no parent — mixin: true)* | Appropriate subprofile |
-| New shared slot | *(no class — top-level slot)* | `catcore_common.yaml` |
+| New shared slot | *(no class — top-level slot)* | `coremeta4cat_common.yaml` |
 
 **Rule 3 — Register an ontology term.**
-Every new class should have a `class_uri:` pointing to a term in an established ontology (Voc4Cat, CHMO, OBI, NCIT, …). If no suitable term exists yet, use a provisional catcore-prefixed URI (`catcore:MyNewClass`) and open a Voc4Cat issue to request a proper term.
+Every new class should have a `class_uri:` pointing to a term in an established ontology (Voc4Cat, CHMO, OBI, NCIT, …). If no suitable term exists yet, use a provisional coremeta4cat-prefixed URI (`coremeta4cat:MyNewClass`) and open a Voc4Cat issue to request a proper term.
 
 **Rule 4 — Declare slots in the right file.**
-Slots used by exactly one class go in that class's subprofile file. Slots shared by two or more classes go in `catcore_common.yaml`.
+Slots used by exactly one class go in that class's subprofile file. Slots shared by two or more classes go in `coremeta4cat_common.yaml`.
 
 **Rule 5 — Apply existing mixins before adding new slots.**
 If your new class needs drying, calcination, precipitation, or thermal process parameters, apply the appropriate mixin rather than redeclaring those slots. Only add method-specific slots beyond what the mixin provides.
@@ -54,7 +54,7 @@ Every slot in a new class should have either `required: true` (Mandatory), `reco
 
 ## Adding a preparation method
 
-New catalyst synthesis routes are added to `catcore_synthesis_ap.yaml` as `PreparationMethod` subclasses.
+New catalyst synthesis routes are added to `coremeta4cat_synthesis_ap.yaml` as `PreparationMethod` subclasses.
 
 ### Step-by-step
 
@@ -65,7 +65,7 @@ Before declaring any slots, check whether the method includes a drying step, cal
 ```yaml
 MyNewMethod:
   is_a: PreparationMethod
-  class_uri: voc4cat:XXXXXXX   # register a real term, or use catcore: prefix temporarily
+  class_uri: VOC4CAT:XXXXXXX   # register a real term, or use coremeta4cat: prefix temporarily
   mixins:
     - DryingMixin              # if the method has a drying step
     - CalcinationMixin         # if the method has a calcination step
@@ -93,7 +93,7 @@ slots:
   my_specific_parameter_a:
     description: What this parameter means and its typical range.
     range: float
-    slot_uri: catcore:my_specific_parameter_a   # or a Voc4Cat / ontology URI
+    slot_uri: coremeta4cat:my_specific_parameter_a   # or a Voc4Cat / ontology URI
     multivalued: true
     unit:
       ucum_code: Cel   # use UCUM codes — e.g. Cel, h, mL/min, bar, g
@@ -101,7 +101,7 @@ slots:
   my_specific_parameter_b:
     description: What this parameter means.
     range: string
-    slot_uri: catcore:my_specific_parameter_b
+    slot_uri: coremeta4cat:my_specific_parameter_b
     multivalued: true
 ```
 
@@ -110,7 +110,7 @@ slots:
 ```yaml
 PhotochemicalSynthesis:
   is_a: PreparationMethod
-  class_uri: catcore:PhotochemicalSynthesis   # replace with Voc4Cat term when available
+  class_uri: coremeta4cat:PhotochemicalSynthesis   # replace with Voc4Cat term when available
   mixins:
     - DryingMixin
   description: |-
@@ -127,13 +127,13 @@ slots:
   light_source:
     description: Type of light source used (e.g. Xe lamp, UV-LED, solar simulator).
     range: string
-    slot_uri: catcore:light_source
+    slot_uri: coremeta4cat:light_source
     multivalued: true
 
   irradiation_wavelength:
     description: Dominant wavelength of the irradiation source.
     range: float
-    slot_uri: catcore:irradiation_wavelength
+    slot_uri: coremeta4cat:irradiation_wavelength
     multivalued: true
     unit:
       ucum_code: nm
@@ -141,7 +141,7 @@ slots:
   irradiation_duration:
     description: Total duration of light irradiation.
     range: float
-    slot_uri: catcore:irradiation_duration
+    slot_uri: coremeta4cat:irradiation_duration
     multivalued: true
     unit:
       ucum_code: h
@@ -149,7 +149,7 @@ slots:
   light_intensity:
     description: Irradiance at the sample surface.
     range: float
-    slot_uri: catcore:light_intensity
+    slot_uri: coremeta4cat:light_intensity
     multivalued: true
     unit:
       ucum_code: mW/cm2
@@ -159,7 +159,7 @@ slots:
 
 ## Adding a characterisation technique
 
-New analytical techniques are added to `catcore_characterization_ap.yaml` as `CharacterizationTechnique` subclasses.
+New analytical techniques are added to `coremeta4cat_characterization_ap.yaml` as `CharacterizationTechnique` subclasses.
 
 ### Step-by-step
 
@@ -193,7 +193,7 @@ MyNewTechnique:
 
 **3. Declare technique-specific slots.**
 
-Use the same pattern as for preparation method slots (see above). Place them in the `slots:` section of `catcore_characterization_ap.yaml`.
+Use the same pattern as for preparation method slots (see above). Place them in the `slots:` section of `coremeta4cat_characterization_ap.yaml`.
 
 ### Minimal complete example — NeutronDiffraction
 
@@ -214,7 +214,7 @@ slots:
   neutron_wavelength:
     description: Wavelength of the neutron beam.
     range: float
-    slot_uri: catcore:neutron_wavelength
+    slot_uri: coremeta4cat:neutron_wavelength
     multivalued: true
     unit:
       ucum_code: Ao   # Angstrom
@@ -222,13 +222,13 @@ slots:
   moderator_type:
     description: Type of neutron moderator (e.g. cold, thermal, hot source).
     range: string
-    slot_uri: catcore:moderator_type
+    slot_uri: coremeta4cat:moderator_type
     multivalued: true
 
   detector_coverage:
     description: Angular range covered by the detector bank.
     range: float
-    slot_uri: catcore:detector_coverage
+    slot_uri: coremeta4cat:detector_coverage
     multivalued: true
     unit:
       ucum_code: deg
@@ -238,7 +238,7 @@ slots:
 
 ## Adding a reactor type
 
-New reactor geometries or operating modes are added to `catcore_reaction_ap.yaml` as `ReactorDesignType` subclasses.
+New reactor geometries or operating modes are added to `coremeta4cat_reaction_ap.yaml` as `ChemicalReactor` subclasses. `ChemicalReactor` is itself an abstract specialization of chemdcat-ap's generic `Reactor` class (see [Pattern 5](design-patterns.md#pattern-5-specializing-chemdcat-ap-inheritance) in Design Patterns) -- new reactor types inherit that chain, they don't need to redeclare anything from it.
 
 ### Step-by-step
 
@@ -246,8 +246,8 @@ New reactor types are simpler than new preparation methods — there are current
 
 ```yaml
 MyNewReactor:
-  is_a: ReactorDesignType
-  class_uri: voc4cat:XXXXXXX
+  is_a: ChemicalReactor
+  class_uri: VOC4CAT:XXXXXXX
   description: |-
     Brief description of the reactor geometry and typical operating conditions.
   slots:
@@ -260,8 +260,8 @@ If the reactor shares parameters with an existing type (e.g. both are tubular fl
 
 ```yaml
 MonolithReactor:
-  is_a: ReactorDesignType
-  class_uri: catcore:MonolithReactor   # replace with Voc4Cat term when available
+  is_a: ChemicalReactor
+  class_uri: coremeta4cat:MonolithReactor   # replace with Voc4Cat term when available
   description: |-
     Monolith reactor — a reactor containing a structured monolithic substrate
     (ceramic or metallic) with parallel channels coated with catalyst.
@@ -275,7 +275,7 @@ slots:
   channel_density:
     description: Number of channels per unit cross-sectional area of the monolith.
     range: float
-    slot_uri: catcore:channel_density
+    slot_uri: coremeta4cat:channel_density
     multivalued: true
     unit:
       ucum_code: 1/cm2
@@ -283,7 +283,7 @@ slots:
   washcoat_loading:
     description: Mass of washcoat (catalyst layer) per unit volume of monolith.
     range: float
-    slot_uri: catcore:washcoat_loading
+    slot_uri: coremeta4cat:washcoat_loading
     multivalued: true
     unit:
       ucum_code: g/L
@@ -291,7 +291,7 @@ slots:
   monolith_material:
     description: Material of the monolith substrate (e.g. cordierite, FeCrAlloy).
     range: string
-    slot_uri: catcore:monolith_material
+    slot_uri: coremeta4cat:monolith_material
     multivalued: true
 ```
 
@@ -299,7 +299,7 @@ slots:
 
 ## Adding a simulation method
 
-New computational approaches are added to `catcore_simulation_ap.yaml` as `SimulationMethod` subclasses.
+New computational approaches are added to `coremeta4cat_simulation_ap.yaml` as `SimulationMethod` subclasses.
 
 ### Step-by-step
 
@@ -312,7 +312,7 @@ The simulation subprofile provides `DFTSettingsMixin` (exchange-correlation func
 ```yaml
 MyNewSimulationMethod:
   is_a: SimulationMethod
-  class_uri: NCIT:XXXXXXX   # or catcore: prefix temporarily
+  class_uri: NCIT:XXXXXXX   # or coremeta4cat: prefix temporarily
   mixins:
     - DFTSettingsMixin      # if DFT-based
   description: |-
@@ -326,7 +326,7 @@ MyNewSimulationMethod:
 ```yaml
 KineticMonteCarlo:
   is_a: SimulationMethod
-  class_uri: catcore:KineticMonteCarlo
+  class_uri: coremeta4cat:KineticMonteCarlo
   description: |-
     Kinetic Monte Carlo simulation of surface reaction kinetics, using
     a reaction network of elementary steps with rate constants.
@@ -340,13 +340,13 @@ slots:
   reaction_network_size:
     description: Number of elementary reaction steps in the KMC reaction network.
     range: integer
-    slot_uri: catcore:reaction_network_size
+    slot_uri: coremeta4cat:reaction_network_size
     multivalued: true
 
   simulation_time_kmc:
     description: Total simulated physical time of the KMC trajectory.
     range: float
-    slot_uri: catcore:simulation_time_kmc
+    slot_uri: coremeta4cat:simulation_time_kmc
     multivalued: true
     unit:
       ucum_code: s
@@ -354,7 +354,7 @@ slots:
   surface_coverage_tracking:
     description: Species for which surface coverage is tracked as a function of time.
     range: string
-    slot_uri: catcore:surface_coverage_tracking
+    slot_uri: coremeta4cat:surface_coverage_tracking
     multivalued: true
 ```
 
@@ -362,12 +362,12 @@ slots:
 
 ## Adding a calculated property
 
-New computed outputs are added to `catcore_simulation_ap.yaml` as `CalculatedProperty` subclasses.
+New computed outputs are added to `coremeta4cat_simulation_ap.yaml` as `CalculatedProperty` subclasses.
 
 ```yaml
 MyNewProperty:
   is_a: CalculatedProperty
-  class_uri: catcore:MyNewProperty
+  class_uri: coremeta4cat:MyNewProperty
   description: |-
     What physical or chemical quantity is computed and what it tells us about the catalyst.
   slots:
@@ -378,22 +378,22 @@ MyNewProperty:
 
 ## Adding a shared slot
 
-If a slot is needed by **two or more subprofiles**, declare it in `catcore_common.yaml` rather than in any individual subprofile. This keeps the schema DRY and avoids slot name collisions.
+If a slot is needed by **two or more subprofiles**, declare it in `coremeta4cat_common.yaml` rather than in any individual subprofile. This keeps the schema DRY and avoids slot name collisions.
 
-**Checklist before adding a slot to catcore_common:**
+**Checklist before adding a slot to coremeta4cat_common:**
 
 - [ ] The slot is genuinely needed in at least two different subprofile modules
-- [ ] No existing slot in `catcore_common` covers the same concept
-- [ ] The slot has a `slot_uri` pointing to an established ontology term (or a provisional catcore URI)
+- [ ] No existing slot in `coremeta4cat_common` covers the same concept
+- [ ] The slot has a `slot_uri` pointing to an established ontology term (or a provisional coremeta4cat URI)
 - [ ] A UCUM unit code is provided for all numeric slots
 
 ```yaml
-# In catcore_common.yaml, under the slots: section:
+# In coremeta4cat_common.yaml, under the slots: section:
 
 my_shared_slot:
   description: What this parameter means, with any relevant units or value constraints.
   range: float
-  slot_uri: catcore:my_shared_slot   # replace with ontology URI if available
+  slot_uri: coremeta4cat:my_shared_slot   # replace with ontology URI if available
   multivalued: true
   unit:
     ucum_code: mL/min
@@ -403,7 +403,7 @@ my_shared_slot:
 
 ## Adding a mixin class
 
-If a set of slots is shared across three or more classes in the same subprofile, consider factoring them into a new mixin. Mixins shared across two subprofiles should go in `catcore_common.yaml`.
+If a set of slots is shared across three or more classes in the same subprofile, consider factoring them into a new mixin. Mixins shared across two subprofiles should go in `coremeta4cat_common.yaml`.
 
 ```yaml
 MyNewMixin:
@@ -439,10 +439,10 @@ SomeConcreteClass:
 CoreMeta4Cat sits at the top of a layered import chain:
 
 ```
-catcore.yaml  →  catcore_common.yaml  →  chem_dcat_ap  →  …  →  dcat_ap_plus
+coremeta4cat.yaml  →  coremeta4cat_common.yaml  →  chem_dcat_ap  →  …  →  dcat_ap_plus
 ```
 
-If you need to introduce a new intermediate chemistry layer (e.g. a `polymer_catalysis_ap` that adds polymer-specific base classes used across multiple pillars), add it between `catcore_common` and the first pillar that needs it. Import it in `catcore_common.yaml` via the `imports:` key, and document the new layer in the import hierarchy diagram in `catcore.yaml`.
+If you need to introduce a new intermediate chemistry layer (e.g. a `polymer_catalysis_ap` that adds polymer-specific base classes used across multiple pillars), add it between `coremeta4cat_common` and the first pillar that needs it. Import it in `coremeta4cat_common.yaml` via the `imports:` key, and document the new layer in the import hierarchy diagram in `coremeta4cat.yaml`.
 
 Do not import new intermediate layers directly in individual pillar files — this would create hidden import order dependencies and make the schema harder to reason about.
 
@@ -453,10 +453,10 @@ Do not import new intermediate layers directly in individual pillar files — th
 Before submitting a pull request with a new extension:
 
 - [ ] New class uses `is_a:` with the correct parent (see [General rules](#general-rules))
-- [ ] `class_uri:` is set (Voc4Cat / ontology term, or `catcore:` placeholder with issue link)
+- [ ] `class_uri:` is set (Voc4Cat / ontology term, or `coremeta4cat:` placeholder with issue link)
 - [ ] Existing mixins are applied before adding new slots
 - [ ] Slots exclusive to this class are declared in the correct subprofile file
-- [ ] Slots shared across subprofiles are declared in `catcore_common.yaml`
+- [ ] Slots shared across subprofiles are declared in `coremeta4cat_common.yaml`
 - [ ] All slots have `slot_uri:`, `range:`, `multivalued: true`
 - [ ] Numeric slots have `unit: { ucum_code: ... }`
 - [ ] Obligation levels are set (`required:` or `recommended:`) on all slots

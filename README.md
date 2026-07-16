@@ -5,11 +5,60 @@
 
 # CoreMeta4Cat
 
-**CoreMeta4Cat** is a community-driven metadata standard for catalysis research, developed under [NFDI4Cat](https://www.nfdi4cat.de/). It defines the minimum information required to describe, share, and discover catalysis datasets in a FAIR-compliant way — Findable, Accessible, Interoperable, and Reusable.
+**CoreMeta4Cat** is a shared metadata standard for catalysis research developed under [NFDI4Cat](https://www.nfdi4cat.de/). At its core, it answers questions that come up whenever catalysis datasets need to be shared, compared, or reused: *what information does a dataset need to include to be understood by someone outside your group?*
 
-CoreMeta4Cat extends [DCAT-AP+](https://nfdi-de.github.io/dcat-ap-plus/) and [ChemDCAT-AP](https://nfdi-de.github.io/chem-dcat-ap/), adding catalysis-specific metadata fields on top of their shared data model. Terminology is drawn from [Voc4Cat](https://nfdi4cat.github.io/voc4cat/), NFDI4Cat's controlled vocabulary for catalysis. Fields are classified as Mandatory, Recommended, or Optional.
+CoreMeta4Cat defines that minimum set of information — which fields are required, which are recommended, and which are optional — across four data classes: Synthesis, Characterization, Reaction, and Simulation. It builds on [DCAT-AP+](https://nfdi-de.github.io/dcat-ap-plus/) and [ChemDCAT-AP](https://nfdi-de.github.io/chem-dcat-ap/), and draws its terminology from [Voc4Cat](https://nfdi4cat.github.io/voc4cat/), NFDI4Cat's controlled vocabulary for catalysis.
 
 > **Documentation:** [nfdi4cat.github.io/CoreMeta4Cat](https://nfdi4cat.github.io/CoreMeta4Cat/)
+
+---
+
+## Who is this for?
+
+| I am… | Start here |
+|---|---|
+| A **researcher** who wants to check or improve the metadata in my dataset | [Download metadata list](https://nfdi4cat.github.io/CoreMeta4Cat/latest/assets/coremeta4cat_vocabulary.xlsx) · [Metadata Checker Tool](#metadata-checker-tool) |
+| A **data steward** or repository manager | [Getting Started on the docs site](https://nfdi4cat.github.io/CoreMeta4Cat/latest/getting-started/) |
+| A **developer** contributing to the schema or tooling | [Schema architecture](#schema-architecture) · [Developer tooling](#developer-tooling) |
+| **New to CoreMeta4Cat** and just exploring | [Documentation site](https://nfdi4cat.github.io/CoreMeta4Cat/latest/) |
+
+---
+
+
+## Metadata Checker Tool
+
+The most up-to-date list of CoreMeta4Cat metadata fields for all four research domains — Synthesis, Characterization, Reaction, and Simulation — is available as a structured Excel workbook:
+
+[⬇ Download the metadata list](https://nfdi4cat.github.io/CoreMeta4Cat/latest/assets/coremeta4cat_vocabulary.xlsx)
+
+Each domain lists its fields grouped by priority (Mandatory, Recommended, Optional), with plain-language descriptions and links to controlled vocabulary terms where available. This is the right starting point if you want to understand what metadata your dataset should include.
+
+We are currently developing a user-friendly **Metadata Checker** tool that will make this process even easier — upload your dataset, and the tool will automatically identify which required fields are present, which are missing, and give you a plain-language gap report with a downloadable template to act on. No schema knowledge required. The tool will be available here soon.
+
+---
+
+## The four research domains
+
+CoreMeta4Cat covers four domains of catalysis research. Each defines its own set of Mandatory, Recommended, and Optional metadata fields.
+
+| Domain | What it covers |
+|---|---|
+| **Synthesis** | How a catalyst is prepared — precursors, preparation method, process conditions, and measured properties |
+| **Characterization** | How a catalyst is analysed — technique, instrument, sample, and method-specific parameters |
+| **Reaction** | How a catalytic experiment is run — reactor type, reactants, conditions, and product identification |
+| **Simulation** | How a computational study is performed — software, method, conditions, and calculated properties |
+
+Full field listings: [Synthesis](https://nfdi4cat.github.io/CoreMeta4Cat/latest/synthesis/) · [Characterization](https://nfdi4cat.github.io/CoreMeta4Cat/latest/characterization/) · [Reaction](https://nfdi4cat.github.io/CoreMeta4Cat/latest/reaction/) · [Simulation](https://nfdi4cat.github.io/CoreMeta4Cat/latest/simulation/)
+
+---
+
+## Vocabulary reference workbook
+
+A structured Excel overview of all metadata fields — grouped by domain, colour-coded by Mandatory / Recommended / Optional — is available at [`docs/assets/coremeta4cat_vocabulary.xlsx`](docs/assets/coremeta4cat_vocabulary.xlsx).
+
+This file is **generated automatically from the schema** and is intended as a reference and starting point, not a data entry form. The schema is the authoritative source; the workbook reflects it.
+
+[⬇ Download the vocabulary workbook](https://nfdi4cat.github.io/CoreMeta4Cat/latest/assets/coremeta4cat_vocabulary.xlsx)
 
 ---
 
@@ -26,17 +75,7 @@ coremeta4cat.yaml              ← top-level aggregator + CatalysisDataset
         └── coremeta4cat_simulation_ap.yaml      ← Simulation + methods
 ```
 
-The schema generates Python datamodels, OWL ontology, JSON-LD, and TypeScript representations automatically. Explore the four data classes in the documentation:
-[Synthesis](https://nfdi4cat.github.io/CoreMeta4Cat/synthesis/) ·
-[Characterization](https://nfdi4cat.github.io/CoreMeta4Cat/characterization/) ·
-[Reaction](https://nfdi4cat.github.io/CoreMeta4Cat/reaction/) ·
-[Simulation](https://nfdi4cat.github.io/CoreMeta4Cat/simulation/)
-
----
-
-## Vocabulary reference workbook
-
-A structured Excel overview of all metadata fields (grouped by data class, colour-coded by M/R/O) is available at [`docs/assets/coremeta4cat_vocabulary.xlsx`](docs/assets/coremeta4cat_vocabulary.xlsx). This file is generated automatically from the schema — the schema is the authoritative source.
+The schema generates Python datamodels, OWL ontology, JSON-LD, and TypeScript representations automatically.
 
 ---
 
@@ -51,6 +90,9 @@ scripts/
   generate_charts.py       ← builds sunburst hierarchy charts from schema
   schema_to_excel.py       ← exports schema → vocabulary workbook
   excel_to_schema.py       ← compares workbook against schema
+  excel_to_schema_json.py  ← converts vocabulary workbook → tool JSON (new)
+tool/                      ← Metadata Checker browser tool (new)
+  step1/index.html         ← Step 1: Define Dataset
 docs/           ← MkDocs documentation source
 tests/
   data/valid/   ← example YAML records used as unit tests
