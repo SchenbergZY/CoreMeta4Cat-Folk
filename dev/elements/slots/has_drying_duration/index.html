@@ -282,6 +282,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../working-with-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../overview/" class="md-nav__link">
         
   
@@ -400,10 +427,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
         
           
-          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
             
   
   
@@ -421,8 +448,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -431,6 +458,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../catalysis-dataset/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Catalysis Dataset
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -763,7 +818,7 @@
 
 <h1 id="slot-has_drying_duration">Slot: has_drying_duration</h1>
 <p><em>Duration of the drying step.</em></p>
-<p>URI: <a href="http://semanticscience.org/resource/SIO_000008">SIO:000008</a>
+<p>URI: <a href="https://w3id.org/nfdi4cat/voc4cat_0008206">VOC4CAT:0008206</a>
 Alias: has_drying_duration</p>
 <h2 id="inheritance">Inheritance</h2>
 <ul>
@@ -783,16 +838,6 @@ Alias: has_drying_duration</p>
 </thead>
 <tbody>
 <tr>
-<td><a href="../../classes/CoPrecipitation/">CoPrecipitation</a></td>
-<td>Catalyst preparation by co-precipitation: precursor salts are<br>simultaneously precipitated from solution by a precipitating agent.</td>
-<td>no</td>
-</tr>
-<tr>
-<td><a href="../../classes/MolecularSynthesis/">MolecularSynthesis</a></td>
-<td>Catalyst preparation by molecular (organometallic or coordination)<br>chemistry routes, including crystallisation and purification steps.</td>
-<td>no</td>
-</tr>
-<tr>
 <td><a href="../../classes/DryingMixin/">DryingMixin</a></td>
 <td>Mixin providing drying step parameters. Used by preparation methods that<br>include a drying step after synthesis or precipitation<br>(Impregnation, CoPrecipitation, DepositionPrecipitation,<br>SonochemicalSynthesis, MolecularSynthesis).</td>
 <td>no</td>
@@ -803,8 +848,13 @@ Alias: has_drying_duration</p>
 <td>no</td>
 </tr>
 <tr>
-<td><a href="../../classes/Impregnation/">Impregnation</a></td>
-<td>Catalyst preparation by impregnation: a solution of the active phase<br>precursor is brought into contact with the support material.</td>
+<td><a href="../../classes/SonochemicalSynthesis/">SonochemicalSynthesis</a></td>
+<td>Catalyst preparation using ultrasonic irradiation to drive chemical<br>reactions via acoustic cavitation.</td>
+<td>no</td>
+</tr>
+<tr>
+<td><a href="../../classes/CoPrecipitation/">CoPrecipitation</a></td>
+<td>Catalyst preparation by co-precipitation: precursor salts are<br>simultaneously precipitated from solution by a precipitating agent.</td>
 <td>no</td>
 </tr>
 <tr>
@@ -813,8 +863,13 @@ Alias: has_drying_duration</p>
 <td>no</td>
 </tr>
 <tr>
-<td><a href="../../classes/SonochemicalSynthesis/">SonochemicalSynthesis</a></td>
-<td>Catalyst preparation using ultrasonic irradiation to drive chemical<br>reactions via acoustic cavitation.</td>
+<td><a href="../../classes/MolecularSynthesis/">MolecularSynthesis</a></td>
+<td>Catalyst preparation by molecular (organometallic or coordination)<br>chemistry routes, including crystallisation and purification steps.</td>
+<td>no</td>
+</tr>
+<tr>
+<td><a href="../../classes/Impregnation/">Impregnation</a></td>
+<td>Catalyst preparation by impregnation: a solution of the active phase<br>precursor is brought into contact with the support material.</td>
 <td>no</td>
 </tr>
 </tbody>
@@ -839,7 +894,7 @@ Alias: has_drying_duration</p>
 <tbody>
 <tr>
 <td>self</td>
-<td>SIO:000008</td>
+<td>VOC4CAT:0008206</td>
 </tr>
 <tr>
 <td>native</td>
@@ -854,7 +909,7 @@ Alias: has_drying_duration</p>
 <span class="nt">from_schema</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://w3id.org/nfdi4cat/coremeta4cat</span>
 <span class="nt">rank</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1000</span>
 <span class="nt">is_a</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_duration</span>
-<span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SIO:000008</span>
+<span class="nt">slot_uri</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VOC4CAT:0008206</span>
 <span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">has_drying_duration</span>
 <span class="nt">domain_of</span><span class="p">:</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DryingMixin</span>
